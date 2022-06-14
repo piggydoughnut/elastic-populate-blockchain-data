@@ -48,17 +48,14 @@ const run = async () => {
         console.log('Found tokens:', allTokens);
         let allTokensPromises = [];
         await Promise.all(allTokens.map(element => {
-            allTokensPromises.push(processTokenInformation(element));
+            elasticclient.index(
+                    {
+                        index: 'test-token-index',
+                        document: element
+    
+                    }
+              )
         }))
-        await elasticclient.index(
-            allTokensPromises.map(token => (
-                {
-                    index: 'test-token-index',
-                    document: token
-
-                }
-            ))
-          )
     } catch(error) {
         console.log(error);
         throw new Error(error);
