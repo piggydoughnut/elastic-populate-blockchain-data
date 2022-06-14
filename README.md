@@ -1,3 +1,4 @@
 # Elastic search test
 
 .
+info
