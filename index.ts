@@ -2,15 +2,13 @@ const SmartChain = require ("komodo-rpc-js");
 
 const config = {
   rpchost: "localhost",
-  rpcport: 29404,
+  rpcport: 29405,
   rpcuser: process.env.RPC_USER,
   rpcpassword: process.env.RPC_PASS
 };
  
 const tokel = new SmartChain({ config });
- 
-console.log(tokel.config); // Prints the config being used by the komodo instance
- 
+
 const tokelRPC = tokel.rpc();
  
 tokelRPC
