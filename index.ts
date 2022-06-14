@@ -12,7 +12,7 @@ const tokel = new SmartChain({ config });
 const tokelRPC = tokel.rpc();
  
 tokelRPC
-  .getinfo()
+  .tokenv2list()
   .then(info => {
     console.log(info);
   })
@@ -21,12 +21,3 @@ tokelRPC
     throw new Error(error);
   });
  
-tokelRPC
-  .listunspent(6, 9999999, [
-    "RPS3xTZCzr6aQfoMw5Bu1rpQBF6iVCWsyu",
-    "RBtNBJjWKVKPFG4To5Yce9TWWmc2AenzfZ"
-  ])
-  .then(outs => {
-    console.log(outs);
-  })
-  .catch(error => console.log(error));
