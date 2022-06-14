@@ -1,4 +1,4 @@
-const SmartChain = require "komodo-rpc-js";
+const SmartChain = require ("komodo-rpc-js");
 
 const config = {
   rpchost: "localhost",
