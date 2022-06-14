@@ -1,4 +1,23 @@
 const SmartChain = require ("komodo-rpc-js");
+const { Client } = require('@elastic/elasticsearch')
+const fs = require('fs');
+
+const CERT = '/home/test/elasticsearch-8.2.2/config/certs/http_ca.crt'
+
+const elasticclient = new Client({
+    node: 'https://localhost:9200',
+    auth: {
+      username: 'elastic',
+      password: 'changeme'
+    },
+    tls: {
+      ca: CERT,
+      rejectUnauthorized: false
+    },
+    maxRetries: 5,
+    requestTimeout: 60000,
+    sniffOnStart: true
+  })
 
 const config = {
   rpchost: "localhost",
@@ -6,15 +25,15 @@ const config = {
   rpcuser: process.env.RPC_USER,
   rpcpassword: process.env.RPC_PASS
 };
- 
+
 const tokel = new SmartChain({ config });
 
 const tokelRPC = tokel.rpc();
- 
+
 
 const processTokenInformation = async (token) => {
     console.log(token)
-    const tokenInfo = await tokelRPC.tokenv2infotokel(token.tokenid);
+    const tokenInfo = await tokelRPC.tokenv2infotokel(token);
     console.log(tokenInfo)
 }
 
@@ -24,11 +43,22 @@ const run = async () => {
         const info = await tokelRPC.getinfo();
         console.log('current height: ', info.longestchain);
         console.log('blocks: ', info.blocks);
-        const allTokens = await tokelRPC.tokenv2list();
+        
+        const allTokens = await tokelRPC.tokenv2list(JSON.stringify({endHeight: info.blocks, beginHeight: info.blocks-1000}));
+        console.log('Found tokens:', allTokens);
         let allTokensPromises = [];
         await Promise.all(allTokens.map(element => {
             allTokensPromises.push(processTokenInformation(element));
         }))
+        await elasticclient.index(
+            allTokensPromises.map(token => (
+                {
+                    index: 'test-token-index',
+                    document: token
+
+                }
+            ))
+          )
     } catch(error) {
         console.log(error);
         throw new Error(error);
