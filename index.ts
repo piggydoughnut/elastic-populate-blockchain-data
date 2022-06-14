@@ -11,13 +11,26 @@ const tokel = new SmartChain({ config });
 
 const tokelRPC = tokel.rpc();
  
-tokelRPC
-  .tokenv2list()
-  .then(info => {
-    console.log(info);
-  })
-  .catch(error => {
-    console.log(error);
-    throw new Error(error);
-  });
- 
+
+const processTokenInformation = async (token) => {
+    console.log(token)
+    const tokenInfo = await tokelRPC.tokenv2infotokel(token.tokenid);
+    console.log(tokenInfo)
+}
+
+async () => {
+    try {
+        // we know a height where to start from, we iterate from there.
+        const info = await tokelRPC.getinfo();
+        console.log('current info', info);
+        const allTokens = await tokelRPC.tokenv2list();
+        console.log(allTokens);
+        let allTokensPromises;
+        await Promise.all(allTokens.map(element => {
+            allTokensPromises.push(processTokenInformation(element));
+        }))
+    } catch(error) {
+        console.log(error);
+        throw new Error(error);
+    }
+}
