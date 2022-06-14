@@ -2,7 +2,7 @@ const SmartChain = require ("komodo-rpc-js");
 
 const config = {
   rpchost: "localhost",
-  rpcport: 7771,
+  rpcport: 29404,
   rpcuser: process.env.RPC_USER,
   rpcpassword: process.env.RPC_PASS
 };
