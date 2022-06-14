@@ -18,14 +18,14 @@ const processTokenInformation = async (token) => {
     console.log(tokenInfo)
 }
 
-async () => {
+const run = async () => {
     try {
         // we know a height where to start from, we iterate from there.
         const info = await tokelRPC.getinfo();
-        console.log('current info', info);
+        console.log('current height: ', info.longestchain);
+        console.log('blocks: ', info.blocks);
         const allTokens = await tokelRPC.tokenv2list();
-        console.log(allTokens);
-        let allTokensPromises;
+        let allTokensPromises = [];
         await Promise.all(allTokens.map(element => {
             allTokensPromises.push(processTokenInformation(element));
         }))
@@ -34,3 +34,5 @@ async () => {
         throw new Error(error);
     }
 }
+
+run();
