@@ -1,0 +1,23 @@
+{
+  "name": "elastic-populate-blockchain-data",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/piggydoughnut/elastic-populate-blockchain-data.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/piggydoughnut/elastic-populate-blockchain-data/issues"
+  },
+  "homepage": "https://github.com/piggydoughnut/elastic-populate-blockchain-data#readme",
+  "dependencies": {
+    "@types/node": "^17.0.42",
+    "komodo-rpc-js": "^0.0.4"
+  }
+}
